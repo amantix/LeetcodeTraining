@@ -220,4 +220,19 @@ public class Solution
 
         return fast != null;
     }
+    
+    public ListNode? ReverseList(ListNode? head)
+    {
+        ListNode? newHead = null;
+        var node = head;
+        while(node != null)
+        {
+            var temp = node.next;
+            node.next = newHead;
+            newHead = node;
+            node = temp;
+        }
+
+        return newHead;
+    }
 }
