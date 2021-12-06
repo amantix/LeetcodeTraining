@@ -179,7 +179,7 @@ public class Solution
     {
         var slow = head;
         var fast = head;
-        while (fast!=null)
+        while (fast != null)
         {
             fast = fast.next?.next;
             slow = slow?.next;
@@ -195,7 +195,7 @@ public class Solution
         }
 
         var node = head;
-        while (node!=fast)
+        while (node != fast)
         {
             node = node?.next;
             fast = fast?.next;
@@ -203,12 +203,12 @@ public class Solution
 
         return fast;
     }
-    
+
     public bool HasCycle(ListNode? head)
     {
         var slow = head;
         var fast = head;
-        while (fast!=null)
+        while (fast != null)
         {
             fast = fast.next?.next;
             slow = slow?.next;
@@ -220,12 +220,12 @@ public class Solution
 
         return fast != null;
     }
-    
+
     public ListNode? ReverseList(ListNode? head)
     {
         ListNode? newHead = null;
         var node = head;
-        while(node != null)
+        while (node != null)
         {
             var temp = node.next;
             node.next = newHead;
@@ -234,5 +234,16 @@ public class Solution
         }
 
         return newHead;
+    }
+
+    public int GetDecimalValue(ListNode head)
+    {
+        var number = 0;
+        for (var node = head; node != null; node = node.next)
+        {
+            number <<= 1;
+            number |= node.val;
+        }
+        return number;
     }
 }
