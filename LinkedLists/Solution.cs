@@ -174,4 +174,50 @@ public class Solution
 
         return dummy.next;
     }
+
+    public ListNode? DetectCycle(ListNode? head)
+    {
+        var slow = head;
+        var fast = head;
+        while (fast!=null)
+        {
+            fast = fast.next?.next;
+            slow = slow?.next;
+            if (slow == fast)
+            {
+                break;
+            }
+        }
+
+        if (fast == null)
+        {
+            return null;
+        }
+
+        var node = head;
+        while (node!=fast)
+        {
+            node = node?.next;
+            fast = fast?.next;
+        }
+
+        return fast;
+    }
+    
+    public bool HasCycle(ListNode? head)
+    {
+        var slow = head;
+        var fast = head;
+        while (fast!=null)
+        {
+            fast = fast.next?.next;
+            slow = slow?.next;
+            if (slow == fast)
+            {
+                break;
+            }
+        }
+
+        return fast != null;
+    }
 }
