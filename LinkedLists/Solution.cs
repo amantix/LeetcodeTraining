@@ -246,4 +246,34 @@ public class Solution
         }
         return number;
     }
+
+    public void ReorderList(ListNode head)
+    {
+        var stack = new Stack<ListNode>();
+        for (var node = head; node != null; node = node.next)
+        {
+            stack.Push(node);
+        }
+
+        var dummy = new ListNode(-1, head);
+        var prev = dummy;
+        var current = head;
+        while (current != null)
+        {
+            var next = current.next;
+            prev.next = current;
+            prev = current;
+            if (stack.Peek() != current)
+            {
+                var tail = stack.Pop();
+                prev.next = tail;
+                prev = tail;
+            }
+
+            prev.next = null;
+            current = next != prev
+                ? next
+                : null;
+        }
+    }
 }
