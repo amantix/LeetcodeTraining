@@ -45,7 +45,10 @@ public class DetectCycleShould
         }
         else
         {
-            Array.IndexOf(items, result.val).Should().Be(cycleBegin);
+            if (items!=null && result != null)
+            {
+                Array.IndexOf(items, result.val).Should().Be(cycleBegin);
+            }
         }
     }
 }

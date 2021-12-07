@@ -1,6 +1,8 @@
+namespace LinkedLists;
+
 public class Solution
 {
-    public ListNode OddEvenList(ListNode head)
+    public ListNode? OddEvenList(ListNode? head)
     {
         var oddDummie = new ListNode();
         var evenDummie = new ListNode();
@@ -40,8 +42,8 @@ public class Solution
         }
 
         var last = head;
-        int length = 1;
-        while (last != null && last.next != null)
+        var length = 1;
+        while (last?.next != null)
         {
             last = last.next;
             length++;
@@ -58,8 +60,8 @@ public class Solution
         var split = head;
         for (var i = 0; i < length - k; i++)
         {
-            prev = prev.next;
-            split = split.next;
+            prev = prev?.next;
+            split = split?.next;
         }
 
         last.next = head;
@@ -68,7 +70,7 @@ public class Solution
         return head;
     }
 
-    public ListNode ReverseBetween(ListNode head, int left, int right)
+    public ListNode? ReverseBetween(ListNode? head, int left, int right)
     {
         if (left == right)
         {
@@ -89,12 +91,12 @@ public class Solution
             }
 
             prev = current;
-            current = current.next;
+            current = current?.next;
         }
 
-        var next = current.next;
+        var next = current?.next;
         var stop = next;
-        for (var node = leftNode; node != stop;)
+        for (var node = leftNode; node!=null && node != stop;)
         {
             var nextIter = node.next;
             node.next = next;
@@ -140,7 +142,7 @@ public class Solution
             }
             else
             {
-                prev = prev.next;
+                prev = prev?.next;
             }
 
             node = node.next;
@@ -236,7 +238,7 @@ public class Solution
         return newHead;
     }
 
-    public int GetDecimalValue(ListNode head)
+    public int GetDecimalValue(ListNode? head)
     {
         var number = 0;
         for (var node = head; node != null; node = node.next)
@@ -244,6 +246,7 @@ public class Solution
             number <<= 1;
             number |= node.val;
         }
+
         return number;
     }
 
