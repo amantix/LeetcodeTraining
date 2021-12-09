@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamOfCharacters", "Strea
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinkedLists", "LinkedLists\LinkedLists.csproj", "{D29D7B7A-5ED1-4169-BDBF-7B68BDA50D75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpGame", "JumpGame\JumpGame.csproj", "{F49DAEE9-7FA3-4A6E-A10C-0CD1D1D575F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{D29D7B7A-5ED1-4169-BDBF-7B68BDA50D75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D29D7B7A-5ED1-4169-BDBF-7B68BDA50D75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D29D7B7A-5ED1-4169-BDBF-7B68BDA50D75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F49DAEE9-7FA3-4A6E-A10C-0CD1D1D575F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F49DAEE9-7FA3-4A6E-A10C-0CD1D1D575F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F49DAEE9-7FA3-4A6E-A10C-0CD1D1D575F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F49DAEE9-7FA3-4A6E-A10C-0CD1D1D575F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
