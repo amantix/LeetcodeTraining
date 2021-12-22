@@ -96,7 +96,7 @@ public class Solution
 
         var next = current?.next;
         var stop = next;
-        for (var node = leftNode; node!=null && node != stop;)
+        for (var node = leftNode; node != null && node != stop;)
         {
             var nextIter = node.next;
             node.next = next;
@@ -278,5 +278,46 @@ public class Solution
                 ? next
                 : null;
         }
+    }
+
+    public bool IsPalindrome(ListNode head)
+    {
+        if (head == null)
+        {
+            return false;
+        }
+
+        var length = 0;
+        for (var node = head; node != null; node = node.next)
+        {
+            length++;
+        }
+
+        ListNode split = null;
+        var i = 0;
+        for (var node = head; i < length / 2 && node != null; i++)
+        {
+            var tmp = node.next;
+            node.next = split;
+            split = node;
+            head = tmp;
+            node = tmp;
+        }
+
+        var headReverse = split;
+        var headForward = length % 2 == 1 && length > 2 ? head.next : head;
+        while (headReverse != null && headForward != null)
+        {
+            if (headReverse.val != headForward.val)
+            {
+                return false;
+            }
+
+            headReverse = headReverse.next;
+            headForward = headForward.next;
+        }
+
+        //todo: restore list
+        return true;
     }
 }
