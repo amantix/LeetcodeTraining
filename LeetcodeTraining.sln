@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DecodeString", "DecodeStrin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arrays", "Arrays\Arrays.csproj", "{B6BA51A9-AD2D-40E3-BBC8-0FD208F63826}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicCalculator", "BasicCalculator\BasicCalculator.csproj", "{B8410304-1025-4242-998E-C4B4052EDA0D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{B6BA51A9-AD2D-40E3-BBC8-0FD208F63826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6BA51A9-AD2D-40E3-BBC8-0FD208F63826}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6BA51A9-AD2D-40E3-BBC8-0FD208F63826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8410304-1025-4242-998E-C4B4052EDA0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8410304-1025-4242-998E-C4B4052EDA0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8410304-1025-4242-998E-C4B4052EDA0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8410304-1025-4242-998E-C4B4052EDA0D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
