@@ -11,7 +11,12 @@ public class Solution
         return Evaluate(polish);
     }
 
-    private enum TokenType{Number, Operator};
+    private enum TokenType
+    {
+        Number,
+        Operator,
+        Bracket
+    };
 
     private static (string token, TokenType type)[] Parse(string input)
     {
@@ -25,27 +30,38 @@ public class Solution
                 case var c when "+-*/".Contains(c):
                     if (number.Length > 0)
                     {
-                        result.Add((number.ToString(),TokenType.Number));
+                        result.Add((number.ToString(), TokenType.Number));
                         number.Clear();
                     }
-                    result.Add((c.ToString(),TokenType.Operator));
+
+                    result.Add((c.ToString(), TokenType.Operator));
                     break;
                 case var c when char.IsDigit(c):
                     number.Append(c);
                     break;
+                case var c when "()".Contains(c):
+                    if (number.Length > 0)
+                    {
+                        result.Add((number.ToString(), TokenType.Number));
+                        number.Clear();
+                    }
+
+                    result.Add((c.ToString(), TokenType.Bracket));
+                    break;
                 default:
                     if (number.Length > 0)
                     {
-                        result.Add((number.ToString(),TokenType.Number));
+                        result.Add((number.ToString(), TokenType.Number));
                         number.Clear();
                     }
+
                     break;
             }
         }
 
         if (number.Length > 0)
         {
-            result.Add((number.ToString(),TokenType.Number));
+            result.Add((number.ToString(), TokenType.Number));
         }
 
         return result.ToArray();
@@ -60,19 +76,33 @@ public class Solution
             switch (currentToken)
             {
                 case (var currentOperator, TokenType.Operator):
-                    while (stack.Count > 0)
+                    while (stack.Count > 0 && stack.Peek()!="(")
                     {
-                        var previousOperator = stack.Peek();
+                        var previousStackItem = stack.Peek();
+
                         if (new[] {"+", "-"}.Contains(currentOperator)
-                            || new[] {currentOperator, previousOperator}.All(o => new[] {"*", "/"}.Contains(o)))
+                            || new[] {currentOperator, previousStackItem}.All(o => new[] {"*", "/"}.Contains(o)))
                         {
                             result.Add((stack.Pop(), TokenType.Operator));
                             continue;
                         }
+
                         break;
                     }
 
                     stack.Push(currentOperator);
+                    break;
+                case (")", TokenType.Bracket):
+                    while (stack.Peek() != "(")
+                    {
+                        result.Add((stack.Pop(), TokenType.Operator));
+                    }
+
+                    stack.Pop();
+
+                    break;
+                case ("(", TokenType.Bracket):
+                    stack.Push("(");
                     break;
                 default:
                     result.Add(currentToken);
@@ -80,7 +110,7 @@ public class Solution
             }
         }
 
-        while (stack.Count>0)
+        while (stack.Count > 0)
         {
             result.Add((stack.Pop(), TokenType.Operator));
         }
@@ -101,7 +131,7 @@ public class Solution
                 case (var currentOperator, TokenType.Operator):
                     var right = stack.Pop();
                     var left = stack.Pop();
-                    stack.Push(Operators[currentOperator](left,right));
+                    stack.Push(Operators[currentOperator](left, right));
                     break;
             }
         }
