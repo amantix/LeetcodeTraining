@@ -18,47 +18,70 @@ public class Solution
         Bracket,
         SignInversion
     };
+    
+    private struct Token
+    {
+        public string Value { get; }
+        public TokenType Type { get; }
+        public Token(string value, TokenType tokenType)
+        {
+            Value = value;
+            Type = tokenType;
+        }
+        public Token(char value, TokenType tokenType) : this(value.ToString(), TokenType.Operator)
+        {
+        }
+        
+        public Token(StringBuilder value) : this(value.ToString(), TokenType.Number)
+        {
+        }
 
-    private static (string token, TokenType type)[] Parse(string input)
+        public void Deconstruct(out string value, out TokenType tokenType)
+        {
+            value = Value;
+            tokenType = Type;
+        }
+    }
+
+    private static List<Token> Parse(string input)
     {
         var number = new StringBuilder();
-        var result = new List<(string token, TokenType type)>();
+        var result = new List<Token>();
 
         foreach (var symbol in input)
         {
             switch (symbol)
             {
-                case var c when "+-*/".Contains(c):
+                case var @operator when "+-*/".Contains(@operator):
                     if (number.Length > 0)
                     {
-                        result.Add((number.ToString(), TokenType.Number));
+                        result.Add(new Token(number));
                         number.Clear();
                     }
-                    else if (number.Length == 0
-                             && (result.Count == 0 || result[^1].token == "(" || result[^1].type == TokenType.Operator))
+                    else if (result.Count == 0 || result[^1].Value == "(" || result[^1].Type == TokenType.Operator)
                     {
-                        result.Add(("-", TokenType.SignInversion));
+                        result.Add(new Token("-", TokenType.SignInversion));
                         break;
                     }
 
-                    result.Add((c.ToString(), TokenType.Operator));
+                    result.Add(new Token(@operator, TokenType.Operator));
                     break;
-                case var c when char.IsDigit(c):
-                    number.Append(c);
+                case var digit when char.IsDigit(digit):
+                    number.Append(digit);
                     break;
-                case var c when "()".Contains(c):
+                case var bracket when "()".Contains(bracket):
                     if (number.Length > 0)
                     {
-                        result.Add((number.ToString(), TokenType.Number));
+                        result.Add(new Token(number));
                         number.Clear();
                     }
 
-                    result.Add((c.ToString(), TokenType.Bracket));
+                    result.Add(new Token(bracket.ToString(), TokenType.Bracket));
                     break;
                 default:
                     if (number.Length > 0)
                     {
-                        result.Add((number.ToString(), TokenType.Number));
+                        result.Add(new Token(number));
                         number.Clear();
                     }
 
@@ -68,27 +91,27 @@ public class Solution
 
         if (number.Length > 0)
         {
-            result.Add((number.ToString(), TokenType.Number));
+            result.Add(new Token(number));
         }
 
-        return result.ToArray();
+        return result;
     }
 
-    private static (string token, TokenType type)[] ToPolishNotation((string token, TokenType type)[] tokens)
+    private static List<Token> ToPolishNotation(IEnumerable<Token> tokens)
     {
-        var result = new List<(string token, TokenType type)>(tokens.Length);
-        var stack = new Stack<(string token, TokenType type)>();
+        var result = new List<Token>();
+        var stack = new Stack<Token>();
         foreach (var currentToken in tokens)
         {
             switch (currentToken)
             {
                 case (var currentOperator, TokenType.Operator):
-                    while (stack.Count > 0 && stack.Peek().token != "(")
+                    while (stack.Count > 0 && stack.Peek().Value != "(")
                     {
                         var previousStackItem = stack.Peek();
 
                         if (new[] {"+", "-"}.Contains(currentOperator)
-                            || new[] {currentOperator, previousStackItem.token}.All(o => new[] {"*", "/"}.Contains(o)))
+                            || new[] {currentOperator, previousStackItem.Value}.All(o => new[] {"*", "/"}.Contains(o)))
                         {
                             result.Add(stack.Pop());
                             continue;
@@ -97,10 +120,10 @@ public class Solution
                         break;
                     }
 
-                    stack.Push((currentOperator, TokenType.Operator));
+                    stack.Push(new (currentOperator, TokenType.Operator));
                     break;
                 case (")", TokenType.Bracket):
-                    while (stack.Peek().token != "(")
+                    while (stack.Peek().Value != "(")
                     {
                         result.Add(stack.Pop());
                     }
@@ -123,27 +146,27 @@ public class Solution
             result.Add(stack.Pop());
         }
 
-        return result.ToArray();
+        return result;
     }
 
-    private static int Evaluate((string token, TokenType type)[] polishNotation)
+    private static int Evaluate(IEnumerable<Token> polishNotation)
     {
         var stack = new Stack<int>();
         foreach (var token in polishNotation)
         {
             switch (token)
             {
-                case (var number, TokenType.Number):
-                    stack.Push(int.Parse(number));
+                case {Type: TokenType.Number} number:
+                    stack.Push(int.Parse(number.Value));
                     break;
-                case (_, TokenType.SignInversion):
+                case {Type: TokenType.SignInversion}:
                     var numberToInverse = stack.Pop();
                     stack.Push(-numberToInverse);
                     break;
-                case (var currentOperator, TokenType.Operator):
+                case {Type: TokenType.Operator}:
                     var right = stack.Pop();
                     var left = stack.Pop();
-                    stack.Push(Operators[currentOperator](left, right));
+                    stack.Push(Operators[token.Value](left, right));
                     break;
             }
         }
