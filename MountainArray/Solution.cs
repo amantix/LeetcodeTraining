@@ -1,6 +1,8 @@
+namespace MountainArray;
+
 class Solution
 {
-    public int FindInMountainArray(int target, MountainArray.MountainArray mountainArr)
+    public int FindInMountainArray(int target, MountainArray mountainArr)
     {
         var peak = FindPeak(mountainArr);
 
@@ -12,37 +14,37 @@ class Solution
         return BinarySearch(target, peak+1, mountainArr.Length()-1, mountainArr, false);
     }
 
-    private int FindPeak(MountainArray.MountainArray mountainArr)
+    private static int FindPeak(MountainArray mountainArr)
     {
         var length = mountainArr.Length();
-        int l = 0, r = length-1;
-        while (l < r)
+        int left = 0, right = length-1;
+        while (left < right)
         {
-            var mid = l + (r-l) / 2;
-            var curr = mountainArr.Get(mid);
-            var next = mountainArr.Get(mid+1);
+            var middle = left + (right-left) / 2;
+            var curr = mountainArr.Get(middle);
+            var next = mountainArr.Get(middle+1);
             if (curr < next)
-                l = mid + 1;
+                left = middle + 1;
             else
-                r = mid;
+                right = middle;
         }
 
-        return l - (length % 2 == 0 ? 0 : 1);
+        return left;
     }
 
-    private int BinarySearch(int target, int l, int r, MountainArray.MountainArray array, bool increasing = true)
+    private static int BinarySearch(int target, int left, int right, MountainArray array, bool increasing = true)
     {
-        while (l < r)
+        while (left < right)
         {
-            var mid = l + (r-l) / 2;
-            if (increasing && array.Get(mid) < target || !increasing && array.Get(mid) > target)
-                l = mid + 1;
+            var middle = left + (right-left) / 2;
+            if (increasing && array.Get(middle) < target || !increasing && array.Get(middle) > target)
+                left = middle + 1;
             else
-                r = mid;
+                right = middle;
         }
-        if(array.Get(l) == target)
+        if(array.Get(left) == target)
         {
-            return l;
+            return left;
         }
 
         return -1;

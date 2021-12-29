@@ -9,6 +9,9 @@ public class MountainArrayTests
 {
     [Test, Timeout(1000)]
     [TestCase("[1, 2, 3, 4, 5, 3, 1]",3,2)]
+    [TestCase("[1, 2, 3, 4, 3, 1]",3,2)]
+    [TestCase("[1, 2, 3, 4, 3, 1]",2,1)]
+    [TestCase("[1, 2, 3, 4, 3, 1]",4,3)]
     [TestCase("[1, 2, 3, 4, 5, 3, 1]",1,0)]
     [TestCase("[1, 2, 3, 4, 5, 3, 1]",4,3)]
     [TestCase("[1, 2, 3, 4, 5, 3, 1]",5,4)]
